@@ -29,3 +29,19 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Security\Firewall\Authentication\SteamProvider:
+        arguments: ['@security.user.provider.concrete.users_in_memory','@.debug.http_client']
+
+    #app.steam_auth_event_listener:    
+        #class: App\Security\Firewall\SteamAuthListener
+        #tags:
+            #- { name: 'kernel.event_listener', event: 'kernel.response', method: 'onKernelResponse' }
+        #arguments: ['home','@security.token_storage', '@security.authentication.manager','@security.authentication.manager']
+        
+    App\Security\Firewall\SteamAuthListener:
+        arguments: ['home','@security.token_storage', '@security.authentication.manager','@router.default']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    #Token
