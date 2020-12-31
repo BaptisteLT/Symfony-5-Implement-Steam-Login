@@ -2,6 +2,8 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+        steam_user_provider:
+            id: App\Security\Firewall\Authentication\SteamProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -10,13 +12,18 @@ security:
             anonymous: true
             lazy: true
             provider: users_in_memory
-
+        steam_secured:
+            pattern:   /
+            anonymous: ~
+            provider: steam_user_provider
+            steam:      true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+            
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
